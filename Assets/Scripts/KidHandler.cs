@@ -1,32 +1,35 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
+using System.Collections;
+
 public class KidHandler : MonoBehaviour
 {
-
     private Animator anim;
-    // Start is called before the first frame update
+
     private void Awake()
     {
         anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ReceiveObject(GameObject clickedObject)
     {
-       // anim.SetBool("happy", true);   
-    }
+        Debug.Log("Kid Received object: " + clickedObject.name);
 
-    public void ReceiveObjectName(string objectName)
-    {
-        Debug.Log("Received object name: " + objectName);
-
-        if (objectName.Equals("Milk"))
+        if (clickedObject.name == "Milk" || clickedObject.name == "")
         {
+            int easterEggCount = PlayerPrefs.GetInt("EasterEggCount");
             anim.SetBool("happy", true);
+            StartCoroutine(ResetHappyStateAfterDelay(2.0f));
+            // No need to wait, destroy the game object immediately
+            Destroy(clickedObject);
+            // Save a variable
+            PlayerPrefs.SetInt("EasterEggCount", easterEggCount + 1);
+            Debug.Log(easterEggCount + 1);
         }
     }
 
+    private IEnumerator ResetHappyStateAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        anim.SetBool("happy", false);
+    }
 }

@@ -9,33 +9,29 @@ public class HealthManager : MonoBehaviour {
     public float healthAmount = 100f;
     public float maxHealthBar = 100f;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public bool stopHealth = false;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+
+        // Auto health decreasing
+        if (!stopHealth)
         {
-            TakeDamage(20);
+            TakeDamage(0.01f);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Heal(20);
-        }
     }
 
     public void ReceiveObjectName(string objectName)
     {
-        Debug.Log("Received object name: " + objectName);
+        Debug.Log("Health Received object name: " + objectName);
 
-        if (objectName.Equals("Milk"))
+        if (objectName == "Milk")
         {
-            Heal(20);
+            stopHealth = true;
+            Heal(10);
+            StartCoroutine(ResetHealth(2.0f));
         }
     }
 
@@ -51,5 +47,11 @@ public class HealthManager : MonoBehaviour {
         healthAmount = Mathf.Clamp(healthAmount, 0f, maxHealthBar);
 
         healthBar.fillAmount = healthAmount / maxHealthBar;
+    }
+
+    private IEnumerator ResetHealth(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        stopHealth = false;
     }
 }

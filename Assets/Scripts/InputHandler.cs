@@ -11,7 +11,7 @@ public class InputHandler : MonoBehaviour
     {
         _mainCamera = Camera.main;
         healthManager = FindObjectOfType<HealthManager>();
-        
+        kidHandler = FindObjectOfType<KidHandler>(); // Find the KidHandler script in the scene
     }
 
     public void OnClick(InputAction.CallbackContext context)
@@ -21,14 +21,16 @@ public class InputHandler : MonoBehaviour
         var rayHit = Physics2D.GetRayIntersection(_mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue()));
         if (!rayHit.collider) return;
 
-        string objectName = rayHit.collider.gameObject.name;
-
-        Debug.Log(objectName);
+        GameObject clickedObject = rayHit.collider.gameObject;
 
         if (healthManager != null)
         {
-            healthManager.ReceiveObjectName(objectName);
-            kidHandler.ReceiveObjectName(objectName);
+            healthManager.ReceiveObjectName(clickedObject.name);
         }
-    }   
+
+        if (kidHandler != null)
+        {
+            kidHandler.ReceiveObject(clickedObject);
+        }
+    }
 }
