@@ -9,6 +9,7 @@ public class Basket : MonoBehaviour
     private void Start()
     {
         tr = GetComponent<Transform>();
+        PlayerPrefs.SetInt("scoreboard", 0);
     }
 
     private void FixedUpdate()
@@ -21,7 +22,7 @@ public class Basket : MonoBehaviour
             if (tr.position.x < 4f)
             {
                 tr.position += new Vector3(0.2f, 0f, 0f);
-                transform.localScale = Vector3.one;
+                transform.localScale = new Vector3(1.5f,1.5f,1f);
             }
         }
 
@@ -32,7 +33,7 @@ public class Basket : MonoBehaviour
             if (tr.position.x > -4f)
             {
                 tr.position += new Vector3(-0.2f, 0f, 0f);
-                transform.localScale = new Vector3(-1, 1, 1);
+                transform.localScale = new Vector3(-1.5f, 1.5f, 1f);
             }
         }
     }

@@ -12,11 +12,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Intro.unity
     guid: a4d733512437a6a4e871f01bcc315d7a
   - enabled: 1
+    path: Assets/Scenes/Loading.unity
+    guid: 1ab4518d79b27fe448c743d599de560b
+  - enabled: 1
+    path: Assets/Scenes/ScenesScrolling.unity
+    guid: c866e4d728ed051439657f51f433a91e
+  - enabled: 1
     path: Assets/Scenes/Puzzle1_kid.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 1
-    path: Assets/Scenes/Loading.unity
-    guid: 2d37f2f17522a804484e6e3db3a64ef6
   - enabled: 1
     path: Assets/Scenes/Puzzle2.unity
     guid: 25358acb5257a3e4bb15521cba6208c3

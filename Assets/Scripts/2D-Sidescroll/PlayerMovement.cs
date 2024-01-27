@@ -3,14 +3,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float normalSpeed;
-    [SerializeField] private float rollingSpeed;
 
     private Rigidbody2D body;
     private Animator anim;
     private bool canHide;
     private bool isHiding;
-    private bool canRoll;
-    private bool isRolling;
 
     private void Awake()
     {
@@ -24,8 +21,8 @@ public class PlayerMovement : MonoBehaviour
         // Flip player when facing left/right.
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        // Check if not hiding and not rolling
-        if (!isHiding && !isRolling)
+        // Check if not hiding
+        if (!isHiding)
         {
             body.velocity = new Vector2(horizontalInput * normalSpeed, body.velocity.y);
 
@@ -37,20 +34,9 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Run", horizontalInput != 0);
         }
 
-        // Check if hiding, can roll, and horizontal input is not zero
-        else if ((isHiding || isRolling) && canRoll && horizontalInput != 0)
-        {
-            body.velocity = new Vector2(horizontalInput * rollingSpeed, body.velocity.y);
-        }
-
         // Check if hiding and DownArrow is pressed
         if (Input.GetKey(KeyCode.DownArrow))
         {
-            if (canRoll && !isRolling)
-            {
-                Roll();
-            }
-
             if (canHide && !isHiding)
             {
                 Hide();
@@ -69,27 +55,13 @@ public class PlayerMovement : MonoBehaviour
             // Release hiding when DownArrow is not pressed
             ReleaseHide();
         }
-
-        // Check if rolling and not in the RollingSpot
-        if (isRolling && !canRoll)
-        {
-            anim.SetBool("hide", false); // Return to idle animation
-            isRolling = false;
-        }
     }
 
     private void Hide()
     {
         anim.SetBool("hide", true);
         isHiding = true;
-        isRolling = false; // Ensure isRolling is false when hiding
         body.velocity = Vector2.zero; // Stop movement when hiding
-    }
-
-    private void Roll()
-    {
-        anim.SetBool("hide", true); // Use the same hiding animation
-        isRolling = true;
     }
 
     private void ReleaseHide()
@@ -104,11 +76,6 @@ public class PlayerMovement : MonoBehaviour
         {
             canHide = true;
         }
-
-        if (collision.gameObject.CompareTag("RollingSpot"))
-        {
-            canRoll = true;
-        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -117,16 +84,6 @@ public class PlayerMovement : MonoBehaviour
         {
             canHide = false;
             ReleaseHide(); // Release hiding when leaving hiding spot
-        }
-
-        if (collision.gameObject.CompareTag("RollingSpot"))
-        {
-            canRoll = false;
-            if (isRolling)
-            {
-                anim.SetBool("hide", false); // Return to idle animation
-                isRolling = false;
-            }
         }
     }
 }
