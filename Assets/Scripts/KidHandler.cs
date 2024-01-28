@@ -82,4 +82,9 @@ public class KidHandler : MonoBehaviour
             anim.SetBool("happy", true);
         }
     }
+
+    public Animator GetAnimator()
+    {
+        return anim;
+    }
 }

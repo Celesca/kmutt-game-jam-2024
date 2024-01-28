@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Generator : MonoBehaviour
 {
-    float timer = 1;
+    public float timer = 1;
     public float totalTime = 30; // Total time in seconds
     public GameObject[] goodPrefabs;
     public GameObject[] badPrefabs;
@@ -70,8 +71,16 @@ public class Generator : MonoBehaviour
         if (timeOutText != null)
         {
             timeOutText.gameObject.SetActive(true);
-            
+
+            Invoke("LoadNextScene", 3f);
         }
+
+    }
+
+    private void LoadNextScene()
+    {
+        // Replace "YourNextSceneName" with the name of the scene you want to load
+        SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     private void UpdateTimerUI()
@@ -80,5 +89,12 @@ public class Generator : MonoBehaviour
         {
             timerText.text = "Time: " + Mathf.Ceil(remainingTime).ToString(); // Round up to the nearest second
         }
+    }
+
+    public void StopTimer()
+    {
+        remainingTime = 0;
+        timer = 0;
+        ShowTimeOutText();
     }
 }
