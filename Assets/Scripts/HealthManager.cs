@@ -1,24 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class HealthManager : MonoBehaviour { 
+public class HealthManager : MonoBehaviour {
 
+    public Text healthText; // Add this line for the Text component
     public Image healthBar;
     public float healthAmount = 100f;
     public float maxHealthBar = 100f;
-
     public bool stopHealth = false;
+    private Animator anim;
 
+    private void Start()
+    {
+        anim = GetComponent<Animator>();
+    }
     // Update is called once per frame
     void Update()
     {
 
+        int itemCount = PlayerPrefs.GetInt("ItemCount");
+
         // Auto health decreasing
         if (!stopHealth)
         {
-            TakeDamage(0.01f);
+            TakeDamage(0.02f);
+        }
+
+        if (healthAmount <= 0 || itemCount >= 4)
+        {
+            StartCoroutine(TimeOutResult(2.0f));
         }
 
     }
@@ -27,7 +40,7 @@ public class HealthManager : MonoBehaviour {
     {
         Debug.Log("Health Received object name: " + objectName);
 
-        if (objectName == "Milk")
+        if (objectName.Length > 0)
         {
             stopHealth = true;
             Heal(10);
@@ -53,5 +66,14 @@ public class HealthManager : MonoBehaviour {
     {
         yield return new WaitForSeconds(delay);
         stopHealth = false;
+    }
+
+    private IEnumerator TimeOutResult(float delay)
+    {
+        anim.SetBool("yuck", true);
+        healthText.text = "MAMA!!! \r\nYUCK!!\r\nNO DELICIOUS";
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
 }

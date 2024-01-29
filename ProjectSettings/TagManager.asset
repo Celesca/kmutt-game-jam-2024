@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Ground
   - HidingSpot
-  - RollingSpot
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -14,7 +14,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - playerLayer
   - 
   - 
   - 

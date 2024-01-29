@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class InputHandler : MonoBehaviour
 {
     private Camera _mainCamera;
     private HealthManager healthManager; // Reference to HealthManager script
     private KidHandler kidHandler; // Reference to KidHandler script
+    private bool stopClick = false;
 
     private void Awake()
     {
@@ -23,14 +25,28 @@ public class InputHandler : MonoBehaviour
 
         GameObject clickedObject = rayHit.collider.gameObject;
 
-        if (healthManager != null)
+        if (!stopClick)
         {
-            healthManager.ReceiveObjectName(clickedObject.name);
-        }
 
-        if (kidHandler != null)
-        {
-            kidHandler.ReceiveObject(clickedObject);
+            if (healthManager != null)
+            {
+                healthManager.ReceiveObjectName(clickedObject.name);
+                StartCoroutine(preventClick(2.0f));
+            }
+
+            if (kidHandler != null)
+            {
+                kidHandler.ReceiveObject(clickedObject);
+                StartCoroutine(preventClick(2.0f));
+            }
+
         }
+    }
+
+    private IEnumerator preventClick(float delay)
+    {
+        stopClick = true;
+        yield return new WaitForSeconds(delay);
+        stopClick = false;
     }
 }
