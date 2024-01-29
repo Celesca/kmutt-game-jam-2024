@@ -14,6 +14,16 @@ public class KidHandler : MonoBehaviour
         PlayerPrefs.SetInt("ItemCount", 0);
     }
 
+    public void Update()
+    {
+        int itemCount = PlayerPrefs.GetInt("ItemCount");
+        if (itemCount >= 4)
+        {
+            anim.SetBool("yuck", true);
+            StartCoroutine(ResetYuckStateAfterDelay(2.0f));
+        }
+    }
+
     public void ReceiveObject(GameObject clickedObject)
     {
         Debug.Log("Kid Received object: " + clickedObject.name);
