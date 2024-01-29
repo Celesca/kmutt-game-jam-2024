@@ -293,10 +293,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 670874644}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ade67b512649ba4d864c9a4c9e1174f, type: 3}
+  m_Script: {fileID: 11500000, guid: d256023e6e5a7a44186c0a05ce7f817a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeOutDuration: 0.5
+  fadeOutDuration: 1
 --- !u!1 &754640373
 GameObject:
   m_ObjectHideFlags: 0

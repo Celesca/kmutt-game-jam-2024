@@ -35,13 +35,18 @@ public class enemyPatrol : MonoBehaviour
     public IEnumerator StartupSequence()
     {
         // Wait for 3 seconds
-
-        // Close text
-        startupText.text = "Why she follow me!?\r\nOMG!!!";
-        startupText.gameObject.SetActive(true);
-
         
+        yield return new WaitForSeconds(0.5f);
         isRunning = true;
+        yield return new WaitForSeconds(2.5f);
+        startupText.text = "Whoa!! My arms and legs\r\nare growing!";
+        startupText.gameObject.SetActive(true);
+        // Close text
+        yield return new WaitForSeconds(2.5f);
+        startupText.text = "Now I can follow\r\nmy dream!";
+        startupText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(2.5f);
+        startupText.text = "But, first I need to\r\nfind the way out";
 
         yield return new WaitForSeconds(2f);
         startupText.gameObject.SetActive(false);

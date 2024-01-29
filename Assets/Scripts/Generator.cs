@@ -12,6 +12,7 @@ public class Generator : MonoBehaviour
     public GameObject[] badPrefabs;
     public Text timerText;
     public Text timeOutText;
+    public Text LoseText;
 
     private float remainingTime;
 
@@ -72,7 +73,7 @@ public class Generator : MonoBehaviour
         {
             timeOutText.gameObject.SetActive(true);
 
-            Invoke("LoadNextScene", 3f);
+            Invoke("LoadNextScene", 2f);
         }
 
     }
@@ -83,6 +84,11 @@ public class Generator : MonoBehaviour
         SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    private void LoadAgain()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     private void UpdateTimerUI()
     {
         if (timerText != null)
@@ -91,10 +97,20 @@ public class Generator : MonoBehaviour
         }
     }
 
+    private void ShowGameOver()
+    {
+        if (timeOutText != null)
+        {
+            LoseText.gameObject.SetActive(true);
+
+            Invoke("LoadAgain", 2f);
+        }
+    }
+
     public void StopTimer()
     {
         remainingTime = 0;
         timer = 0;
-        ShowTimeOutText();
+        ShowGameOver();
     }
 }
